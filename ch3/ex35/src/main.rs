@@ -24,17 +24,19 @@ fn main() -> io::Result<()> {
 }
 
 fn palindrome(number: usize) -> bool {
-    let number_digits: usize = (number as f64).log10().floor() as usize + 1;
-    let mut divisor: f64 = 10.0.powi(number_digits - 1);
+    let number_digits: i32 = (number as f64).log10().floor() as i32 + 1;
+    let mut divisor: f64 = (10.0 as f64).powi(number_digits - 1);
+    let mut temp: f64 = number as f64;
 
-    while divisor > 1.0 {
-        let upper_digit: usize = (number / divisor).floor() as usize;
-        let lower_digit: usize = (number % divisor);
+    while divisor >= 10.0 {
+        let upper_digit: f64 = (temp / divisor).floor();
+        let lower_digit: f64 = (temp % 10.0);
         if upper_digit != lower_digit {
             return false;
         }
 
-        divisor = divisor / 10;
+        temp = ((temp % divisor) / 10.0).floor();
+        divisor = divisor / 100.00;
     }
 
     true
